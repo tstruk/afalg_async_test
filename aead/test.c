@@ -54,7 +54,7 @@ struct af_alg_iv {
 #define ALG_OP_ENCRYPT        1
 
 #define INFLIGTHS 128
-#define TO_SEND (INFLIGTHS * 1024 * 1024)
+#define TO_SEND (INFLIGTHS * 1024 * (INFLIGTHS / 1024))
 
 static char buf_out[INFLIGTHS][80 + 24 + 20] = {0};
 
@@ -309,8 +309,8 @@ static int crypt_kernel(int zcp)
             msg.msg_iov = NULL;
 
             r = sendmsg(opfd, &msg, 0);
-            //if (r < 0)
-            //    printf("sendmsg returned Error: %d r = %d\n", errno, r);
+            if (r < 0 && errno != EMSGSIZE)
+                printf("sendmsg returned Error: %d r = %d\n", errno, r);
 
             r = vmsplice(pipes[1], &iov, 1, SPLICE_F_GIFT);
             if (r < 0)
