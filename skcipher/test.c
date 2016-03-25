@@ -30,7 +30,7 @@
 #include <sys/uio.h>
 #define SOL_ALG 279
 
-#define SPLICE_F_GIFT    (0x08)    /* pages passed in are a gift */
+#define SPLICE_F_GIFT    8    /* pages passed in are a gift */
 struct sockaddr_alg {
     __u16    salg_family;
     __u8    salg_type[14];
